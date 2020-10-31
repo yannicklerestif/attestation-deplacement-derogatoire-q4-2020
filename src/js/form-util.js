@@ -92,6 +92,24 @@ export function prepareInputs (formInputs, reasonInputs, reasonFieldset, reasonA
         }
       })
     }
+
+    const inputType = input.type
+    if (inputType === 'checkbox') {
+      const oldValueString = localStorage.getItem(`FIELD-${input.id}`)
+      const oldValue = oldValueString === 'TRUE'
+      input.checked = oldValue
+      input.addEventListener('input', (event) => {
+        console.log(`input: ${input.id} - value: ${input.checked}`)
+        localStorage.setItem(`FIELD-${input.id}`, input.checked ? 'TRUE' : 'FALSE')
+      })
+    } else {
+      const oldValue = localStorage.getItem(`FIELD-${input.id}`)
+      input.value = oldValue
+      input.addEventListener('input', (event) => {
+        console.log(`input: ${input.id} - value: ${input.value}`)
+        localStorage.setItem(`FIELD-${input.id}`, input.value)
+      })
+    }
   })
 
   $('#field-birthday').addEventListener('keyup', function (event) {
